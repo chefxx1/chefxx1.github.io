@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For my mdwara Batoul</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brown-deep: #5a3a22;
+    --brown: #8b5e3c;
+    --brown-light: #d4a574;
+    --cream: #fdf6ec;
+    --green-deep: #4a6b3a;
+    --green: #7a9b5e;
+    --green-light: #b5d19a;
+    --pink: #ffb6c1;
+    --pink-deep: #ff87a2;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    min-height: 100%;
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(135deg, #fdf6ec 0%, #f4e8d4 50%, #e8dcc0 100%);
+    color: var(--brown-deep);
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Floating hearts background */
+  .heart-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .floating-heart {
+    position: absolute;
+    font-size: 24px;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(100vh) rotate(0deg) scale(0.5);
+      opacity: 0;
+    }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% {
+      transform: translateY(-100px) rotate(360deg) scale(1);
+      opacity: 0;
+    }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    text-align: center;
+  }
+
+  .flower-top {
+    font-size: 42px;
+    margin-bottom: 10px;
+    animation: sway 4s ease-in-out infinite;
+  }
+
+  @keyframes sway {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+
+  h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 68px;
+    color: var(--brown-deep);
+    margin-bottom: 8px;
+    text-shadow: 2px 2px 0 rgba(181, 209, 154, 0.4);
+    animation: pop 1s ease-out;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.3); opacity: 0; }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .subtitle {
+    font-family: 'Dancing Script', cursive;
+    font-size: 32px;
+    color: var(--green-deep);
+    margin-bottom: 30px;
+  }
+
+  .days-counter {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--green-light), var(--green));
+    color: white;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 18px;
+    box-shadow: 0 6px 20px rgba(122, 155, 94, 0.4);
+    margin-bottom: 30px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border: 3px solid var(--brown-light);
+    border-radius: 30px;
+    padding: 35px 30px;
+    margin: 20px 0;
+    box-shadow: 0 15px 40px rgba(139, 94, 60, 0.2);
+    position: relative;
+  }
+
+  .card::before {
+    content: '🌸';
+    position: absolute;
+    top: -20px;
+    left: 30px;
+    font-size: 36px;
+    background: var(--cream);
+    padding: 0 8px;
+  }
+
+  .card::after {
+    content: '🌼';
+    position: absolute;
+    top: -20px;
+    right: 30px;
+    font-size: 36px;
+    background: var(--cream);
+    padding: 0 8px;
+  }
+
+  .message {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--brown-deep);
+    margin-bottom: 15px;
+  }
+
+  .message strong {
+    color: var(--pink-deep);
+    font-family: 'Dancing Script', cursive;
+    font-size: 24px;
+  }
+
+  .promises {
+    background: rgba(181, 209, 154, 0.25);
+    border-left: 5px solid var(--green);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    text-align: left;
+  }
+
+  .promises h3 {
+    color: var(--green-deep);
+    margin-bottom: 12px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .promises ul {
+    list-style: none;
+  }
+
+  .promises li {
+    padding: 8px 0 8px 30px;
+    position: relative;
+    color: var(--brown-deep);
+  }
+
+  .promises li::before {
+    content: '💚';
+    position: absolute;
+    left: 0;
+  }
+
+  .button-area {
+    margin-top: 35px;
+    position: relative;
+    height: 120px;
+  }
+
+  .btn {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 18px 40px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin: 10px;
+  }
+
+  .btn-forgive {
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    color: white;
+    box-shadow: 0 8px 25px rgba(255, 135, 162, 0.5);
+    animation: wiggle 3s ease-in-out infinite;
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+  }
+
+  .btn-forgive:hover {
+    transform: scale(1.15);
+    box-shadow: 0 12px 35px rgba(255, 135, 162, 0.7);
+  }
+
+  .btn-decline {
+    background: #f0ece4;
+    color: #a89b85;
+    border: 2px solid #d4c9b0;
+    position: absolute;
+    transition: left 0.3s ease, top 0.3s ease;
+  }
+
+  .avocado-row {
+    font-size: 32px;
+    margin: 20px 0 10px;
+    letter-spacing: 10px;
+  }
+
+  .success {
+    display: none;
+    text-align: center;
+    animation: popIn 0.6s ease-out;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .success h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 56px;
+    color: var(--pink-deep);
+    margin-bottom: 15px;
+  }
+
+  .success p {
+    font-size: 18px;
+    color: var(--brown-deep);
+    line-height: 1.7;
+  }
+
+  .big-heart {
+    font-size: 90px;
+    animation: beat 1.2s ease-in-out infinite;
+    display: inline-block;
+  }
+
+  @keyframes beat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(0.95); }
+    75% { transform: scale(1.15); }
+  }
+
+  .footer {
+    margin-top: 30px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 26px;
+    color: var(--brown);
+  }
+
+  @media (max-width: 500px) {
+    h1 { font-size: 48px; }
+    .subtitle { font-size: 24px; }
+    .card { padding: 25px 18px; }
+    .btn { font-size: 17px; padding: 15px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="heart-bg" id="heartBg"></div>
+
+<div class="container">
+  <div id="mainContent">
+    <div class="flower-top">🌸🌼🌸</div>
+    <h1>I'm Sorry, Batoul</h1>
+    <div class="subtitle">my sweet mdwara 💕</div>
+
+    <div class="days-counter">🌱 182 days of knowing you 🌱</div>
+
+    <div class="card">
+      <p class="message">
+        My dearest <strong>mdwara</strong>,
+      </p>
+      <p class="message">
+        I know I've made you sad these past few days, and I hate myself for every tear.
+        They were dumb little mistakes — forgetting to reply, getting caught up in other things —
+        but you never deserve to feel forgotten, not even for a second. 💔
+      </p>
+      <p class="message">
+        You are the pink lily in my garden 🌸, the white sunflower that turns my world toward the sun 🌼,
+        and yes — even my favorite avocado 🥑 (the softest, sweetest one).
+      </p>
+
+      <div class="promises">
+        <h3>My little promises to you 💚</h3>
+        <ul>
+          <li>I'll always reply, even if it's just to say "busy, but thinking of you"</li>
+          <li>I'll never make you feel like second place, because you're my first everything</li>
+          <li>I'll learn from every dumb mistake — you deserve my best, always</li>
+          <li>I'll love you louder on the days I mess up quieter</li>
+          <li>182 days down, forever to go 💕</li>
+        </ul>
+      </div>
+
+      <div class="avocado-row">🥑 🌸 💚 🌼 🥑</div>
+
+      <p class="message" style="margin-top: 15px;">
+        Please, my Batoul... will you forgive me? 🥺
+      </p>
+    </div>
+
+    <div class="button-area" id="buttonArea">
+      <button class="btn btn-forgive" onclick="forgive()">Yes, I forgive you 💕</button>
+      <button class="btn btn-decline" id="declineBtn" onmouseover="runAway()" ontouchstart="runAway()" onclick="runAway()">No 😤</button>
+    </div>
+  </div>
+
+  <div class="success" id="successScreen">
+    <div class="big-heart">💚</div>
+    <h2>Thank you, my mdwara</h2>
+    <p>
+      You just made me the happiest person alive. 🌸<br>
+      I promise to cherish you every single day. 🌼<br>
+      I love you more than all the avocados in the world. 🥑<br><br>
+      <strong style="font-family: 'Dancing Script', cursive; font-size: 32px; color: var(--pink-deep);">
+        Forever yours 💕
+      </strong>
+    </p>
+    <div class="avocado-row" style="margin-top: 25px;">🌸 🥑 💚 🌼 💕</div>
+  </div>
+
+  <div class="footer">made with 💚 just for you, Batoul</div>
+</div>
+
+<script>
+  // Create floating hearts
+  const heartBg = document.getElementById('heartBg');
+  const hearts = ['💕', '💚', '🌸', '🌼', '🥑', '💖'];
+
+  function spawnHeart() {
+    const h = document.createElement('div');
+    h.className = 'floating-heart';
+    h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+    h.style.left = Math.random() * 100 + '%';
+    h.style.animationDuration = (Math.random() * 6 + 6) + 's';
+    h.style.fontSize = (Math.random() * 20 + 18) + 'px';
+    heartBg.appendChild(h);
+    setTimeout(() => h.remove(), 13000);
+  }
+
+  for (let i = 0; i < 8; i++) {
+    setTimeout(spawnHeart, i * 400);
+  }
+  setInterval(spawnHeart, 600);
+
+  // Decline button runs away
+  let moveCount = 0;
+  function runAway() {
+    const btn = document.getElementById('declineBtn');
+    const area = document.getElementById('buttonArea');
+    const areaRect = area.getBoundingClientRect();
+    const maxX = areaRect.width - btn.offsetWidth - 20;
+    const maxY = areaRect.height - btn.offsetHeight;
+
+    const newX = Math.random() * Math.max(maxX, 50);
+    const newY = Math.random() * Math.max(maxY, 50);
+
+    btn.style.position = 'absolute';
+    btn.style.left = newX + 'px';
+    btn.style.top = newY + 'px';
+
+    moveCount++;
+    const teases = [
+      'No 😤', 'Nope 🙈', 'Catch me 🏃', 'Try again 😝',
+      'Nuh uh 💨', 'Missed! 😋', 'Too slow 💕', 'Haha no 🌸'
+    ];
+    btn.textContent = teases[moveCount % teases.length];
+  }
+
+  // Forgive button
+  function forgive() {
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+
+    // Extra heart burst
+    for (let i = 0; i < 30; i++) {
+      setTimeout(spawnHeart, i * 80);
+    }
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>

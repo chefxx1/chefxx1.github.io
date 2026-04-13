@@ -291,11 +291,172 @@
     color: var(--brown);
   }
 
+  /* Lock screen */
+  .lock-screen, .welcome-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #fdf6ec 0%, #f4e8d4 50%, #e8dcc0 100%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .lock-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: swingLock 2s ease-in-out infinite;
+  }
+
+  @keyframes swingLock {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+  }
+
+  .lock-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 52px;
+    color: var(--brown-deep);
+    margin-bottom: 10px;
+  }
+
+  .lock-subtitle {
+    font-size: 18px;
+    color: var(--green-deep);
+    margin-bottom: 30px;
+  }
+
+  #passwordInput {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+    padding: 15px 25px;
+    border: 3px solid var(--brown-light);
+    border-radius: 50px;
+    background: white;
+    color: var(--brown-deep);
+    outline: none;
+    text-align: center;
+    width: 280px;
+    max-width: 90%;
+    transition: border-color 0.3s;
+  }
+
+  #passwordInput:focus {
+    border-color: var(--pink-deep);
+  }
+
+  #passwordInput.shake {
+    animation: shake 0.5s;
+    border-color: #e57373;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+  }
+
+  .btn-unlock {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--green-light), var(--green));
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0 8px 25px rgba(122, 155, 94, 0.4);
+    transition: transform 0.2s;
+  }
+
+  .btn-unlock:hover {
+    transform: scale(1.08);
+  }
+
+  .lock-hint {
+    margin-top: 20px;
+    font-size: 15px;
+    color: var(--brown);
+    font-style: italic;
+  }
+
+  .lock-error {
+    margin-top: 10px;
+    color: #e57373;
+    font-weight: 600;
+    min-height: 24px;
+  }
+
+  /* Welcome screen */
+  .welcome-hearts {
+    font-size: 50px;
+    letter-spacing: 15px;
+    margin-bottom: 20px;
+    animation: beat 1.5s ease-in-out infinite;
+  }
+
+  .welcome-screen h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 72px;
+    color: var(--pink-deep);
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 0 rgba(181, 209, 154, 0.4);
+  }
+
+  .welcome-screen p {
+    font-size: 22px;
+    color: var(--brown-deep);
+    margin-bottom: 35px;
+    font-family: 'Dancing Script', cursive;
+  }
+
+  .btn-open {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    padding: 20px 50px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(255, 135, 162, 0.5);
+    animation: pulse 2s ease-in-out infinite;
+    transition: transform 0.2s;
+  }
+
+  .btn-open:hover {
+    transform: scale(1.1);
+  }
+
+  .hide-anim {
+    animation: fadeOut 0.6s ease-in forwards;
+  }
+
+  @keyframes fadeOut {
+    to { opacity: 0; transform: scale(0.95); pointer-events: none; }
+  }
+
   @media (max-width: 500px) {
     h1 { font-size: 48px; }
     .subtitle { font-size: 24px; }
     .card { padding: 25px 18px; }
     .btn { font-size: 17px; padding: 15px 28px; }
+    .lock-title { font-size: 40px; }
+    .welcome-screen h2 { font-size: 52px; }
+    .welcome-screen p { font-size: 18px; }
   }
 </style>
 </head>
@@ -303,7 +464,26 @@
 
 <div class="heart-bg" id="heartBg"></div>
 
-<div class="container">
+<!-- 🔒 Lock screen -->
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-icon">🔒</div>
+  <h2 class="lock-title">For Batoul's eyes only</h2>
+  <p class="lock-subtitle">Enter the secret word 💕</p>
+  <input type="text" id="passwordInput" placeholder="type here..." autocomplete="off" />
+  <button class="btn-unlock" onclick="checkPassword()">Unlock 🔓</button>
+  <p class="lock-hint">hint: it's what I call you 💕</p>
+  <p class="lock-error" id="lockError"></p>
+</div>
+
+<!-- 🌸 Welcome screen -->
+<div class="welcome-screen" id="welcomeScreen" style="display:none;">
+  <div class="welcome-hearts">💕 🌸 💕</div>
+  <h2>Hi mdwara 💕</h2>
+  <p>I made this just for you...</p>
+  <button class="btn-open" onclick="openHeart()">Open my heart 💚</button>
+</div>
+
+<div class="container" id="mainContainer" style="display:none;">
   <div id="mainContent">
     <div class="flower-top">🌸🌼🌸</div>
     <h1>I'm Sorry, Batoul</h1>
@@ -386,6 +566,45 @@
     setTimeout(spawnHeart, i * 400);
   }
   setInterval(spawnHeart, 600);
+
+  // Lock screen password check
+  function checkPassword() {
+    const input = document.getElementById('passwordInput').value.trim().toLowerCase();
+    const accepted = ['mdwara', 'batoul', 'mdwarti', 'my mdwara'];
+    const errorEl = document.getElementById('lockError');
+    const inputEl = document.getElementById('passwordInput');
+
+    if (accepted.includes(input)) {
+      errorEl.textContent = '';
+      document.getElementById('lockScreen').classList.add('hide-anim');
+      setTimeout(() => {
+        document.getElementById('lockScreen').style.display = 'none';
+        document.getElementById('welcomeScreen').style.display = 'flex';
+      }, 550);
+    } else {
+      errorEl.textContent = 'hmm, try again my love 💕';
+      inputEl.classList.add('shake');
+      setTimeout(() => inputEl.classList.remove('shake'), 500);
+    }
+  }
+
+  // Enter key on password
+  document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  // Welcome screen → main content
+  function openHeart() {
+    document.getElementById('welcomeScreen').classList.add('hide-anim');
+    setTimeout(() => {
+      document.getElementById('welcomeScreen').style.display = 'none';
+      document.getElementById('mainContainer').style.display = 'block';
+      // heart burst
+      for (let i = 0; i < 20; i++) {
+        setTimeout(spawnHeart, i * 60);
+      }
+    }, 550);
+  }
 
   // Decline button runs away
   let moveCount = 0;

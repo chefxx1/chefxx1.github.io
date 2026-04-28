@@ -603,6 +603,44 @@
     100% { transform: translate(-12vw, 0) scaleX(-1); opacity: 0; }
   }
 
+  /* Cursive signature that writes itself */
+  .signature-wrap {
+    text-align: right;
+    margin: 28px 12px 5px 0;
+  }
+
+  .signature {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 700;
+    font-size: 44px;
+    color: var(--brown-deep);
+    display: inline-block;
+    position: relative;
+    clip-path: inset(0 100% 0 0);
+    animation: writeSignature 2.2s 0.6s ease-out forwards;
+    text-shadow: 1px 1px 0 rgba(255, 135, 162, 0.25);
+  }
+
+  .signature::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -6px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--pink-deep), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: underlineSig 1s 2.6s ease-out forwards;
+  }
+
+  @keyframes writeSignature {
+    from { clip-path: inset(0 100% 0 0); }
+    to   { clip-path: inset(0 0% 0 0); }
+  }
+
+  @keyframes underlineSig {
+    to { transform: scaleX(1); }
+  }
+
   @media (max-width: 500px) {
     h1 { font-size: 48px; }
     .subtitle { font-size: 24px; }
@@ -611,6 +649,8 @@
     .lock-title { font-size: 40px; }
     .welcome-screen h2 { font-size: 52px; }
     .welcome-screen p { font-size: 18px; }
+    .days-counter { font-size: 15px; padding: 10px 18px; }
+    .signature { font-size: 36px; }
   }
 </style>
 </head>
@@ -643,7 +683,7 @@
     <h1>I'm Sorry, Batoul</h1>
     <div class="subtitle">my sweet mdwara 💕</div>
 
-    <div class="days-counter">🌱 182 days of knowing you 🌱</div>
+    <div class="days-counter">🌱 <span id="liveCounter">calculating…</span> 🌱</div>
 
     <div class="card">
       <div class="heart-draw-wrap" onclick="redrawHeart()" title="tap to redraw 💕">
@@ -689,7 +729,7 @@
           <li>Your peace will always matter more than my pride 🌼</li>
           <li>These two sad days hurt me deep — never again, my mdwara 💔</li>
           <li>I'd rather lose any argument than lose one of your smiles 💕</li>
-          <li>182 days down, forever to go 💕</li>
+          <li><span id="liveCounter2">202</span> days down, forever to go 💕</li>
         </ul>
       </div>
 
@@ -704,6 +744,10 @@
       <p class="message" style="margin-top: 15px;">
         Please, my Batoul... will you forgive me? 🥺
       </p>
+
+      <div class="signature-wrap">
+        <span class="signature">Naim</span>
+      </div>
     </div>
 
     <div class="button-area" id="buttonArea">
@@ -730,6 +774,24 @@
 </div>
 
 <script>
+  // Live "days of knowing you" counter — from Oct 8, 2025
+  const meetDate = new Date('2025-10-08T00:00:00');
+  function updateCounter() {
+    const el  = document.getElementById('liveCounter');
+    const el2 = document.getElementById('liveCounter2');
+    if (!el && !el2) return;
+    const diff = Math.max(0, new Date() - meetDate);
+    const totalSec = Math.floor(diff / 1000);
+    const d = Math.floor(totalSec / 86400);
+    const h = Math.floor((totalSec % 86400) / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    if (el)  el.textContent  = `${d} days · ${h}h ${m}m ${s}s of knowing you`;
+    if (el2) el2.textContent = d;
+  }
+  updateCounter();
+  setInterval(updateCounter, 1000);
+
   // Create floating hearts
   const heartBg = document.getElementById('heartBg');
   const hearts = ['💕', '💚', '🌸', '🌼', '🥑', '💖'];

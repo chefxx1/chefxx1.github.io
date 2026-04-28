@@ -449,6 +449,97 @@
     to { opacity: 0; transform: scale(0.95); pointer-events: none; }
   }
 
+  /* Cat brings fish */
+  .cat-scene {
+    position: relative;
+    height: 100px;
+    margin: 25px auto 6px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .cat-scene .cat {
+    font-size: 64px;
+    display: inline-block;
+    transform: translateX(-220px);
+    animation: catSlideIn 1s 0.2s ease-out forwards, catBob 1.6s 1.4s ease-in-out infinite;
+  }
+
+  .cat-scene .fish-gift {
+    font-size: 38px;
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fishDrop 0.6s 1.1s ease-out forwards, fishWiggle 2s 1.8s ease-in-out infinite;
+  }
+
+  @keyframes catSlideIn {
+    0%   { transform: translateX(-220px) rotate(-8deg); }
+    60%  { transform: translateX(10px) rotate(4deg); }
+    100% { transform: translateX(0) rotate(0); }
+  }
+
+  @keyframes catBob {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  @keyframes fishDrop {
+    0%   { opacity: 0; transform: translateY(-30px) scale(0.4); }
+    60%  { opacity: 1; transform: translateY(8px) scale(1.2); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes fishWiggle {
+    0%, 100% { transform: rotate(-10deg); }
+    50%      { transform: rotate(10deg); }
+  }
+
+  .cat-msg {
+    font-family: 'Dancing Script', cursive;
+    font-size: 22px;
+    color: var(--green-deep);
+    margin: 4px 0 10px;
+    opacity: 0;
+    animation: fadeInMsg 0.8s 1.8s ease-out forwards;
+  }
+
+  @keyframes fadeInMsg {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Swimming fish background */
+  .swimming-fish {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 28px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .swimming-fish.swim-right { animation: swimRight linear forwards; }
+  .swimming-fish.swim-left  { animation: swimLeft linear forwards; }
+
+  @keyframes swimRight {
+    0%   { transform: translate(-12vw, 0) scaleX(1); opacity: 0; }
+    10%  { opacity: 0.85; }
+    90%  { opacity: 0.85; }
+    100% { transform: translate(112vw, 0) scaleX(1); opacity: 0; }
+  }
+
+  @keyframes swimLeft {
+    0%   { transform: translate(112vw, 0) scaleX(-1); opacity: 0; }
+    10%  { opacity: 0.85; }
+    90%  { opacity: 0.85; }
+    100% { transform: translate(-12vw, 0) scaleX(-1); opacity: 0; }
+  }
+
   @media (max-width: 500px) {
     h1 { font-size: 48px; }
     .subtitle { font-size: 24px; }
@@ -518,6 +609,12 @@
 
       <div class="avocado-row">🥑 🌸 💚 🌼 🥑</div>
 
+      <div class="cat-scene" id="catScene" onclick="replayCat()" title="tap me 🐱">
+        <span class="cat">🐱</span>
+        <span class="fish-gift">🐟</span>
+      </div>
+      <p class="cat-msg" id="catMsg">even the cat is sorry — he caught you a fish 🥺💕</p>
+
       <p class="message" style="margin-top: 15px;">
         Please, my Batoul... will you forgive me? 🥺
       </p>
@@ -566,6 +663,33 @@
     setTimeout(spawnHeart, i * 400);
   }
   setInterval(spawnHeart, 600);
+
+  // Swimming fish in the background
+  const fishTypes = ['🐟', '🐠', '🐡'];
+  function spawnFish() {
+    const f = document.createElement('div');
+    f.className = 'swimming-fish';
+    f.textContent = fishTypes[Math.floor(Math.random() * fishTypes.length)];
+    f.classList.add(Math.random() < 0.5 ? 'swim-right' : 'swim-left');
+    f.style.top = (Math.random() * 70 + 20) + '%';
+    f.style.fontSize = (Math.random() * 16 + 22) + 'px';
+    f.style.animationDuration = (Math.random() * 8 + 12) + 's';
+    heartBg.appendChild(f);
+    setTimeout(() => f.remove(), 22000);
+  }
+  for (let i = 0; i < 3; i++) setTimeout(spawnFish, i * 1500);
+  setInterval(spawnFish, 2200);
+
+  // Replay the cat-with-fish animation on tap
+  function replayCat() {
+    const scene = document.getElementById('catScene');
+    const msg = document.getElementById('catMsg');
+    [scene.querySelector('.cat'), scene.querySelector('.fish-gift'), msg].forEach(el => {
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = '';
+    });
+  }
 
   // Lock screen password check
   function checkPassword() {

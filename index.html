@@ -27,6 +27,28 @@
     color: var(--brown-deep);
     overflow-x: hidden;
     position: relative;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 32 32'><path d='M16 28 C16 28 4 19 4 11 C4 6 8 3 12 3 C14 3 16 5 16 7 C16 5 18 3 20 3 C24 3 28 6 28 11 C28 19 16 28 16 28 Z' fill='%23ff87a2' stroke='%23ff5577' stroke-width='1.5'/></svg>") 14 14, auto;
+  }
+
+  button, .btn, a, .heart-draw-wrap, .cat-scene, [onclick] {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><path d='M16 28 C16 28 4 19 4 11 C4 6 8 3 12 3 C14 3 16 5 16 7 C16 5 18 3 20 3 C24 3 28 6 28 11 C28 19 16 28 16 28 Z' fill='%23ff5577' stroke='%23cc1144' stroke-width='1.8'/></svg>") 16 16, pointer;
+  }
+
+  input, textarea { cursor: text; }
+
+  /* Heart burst on forgive */
+  .burst-heart {
+    position: fixed;
+    pointer-events: none;
+    z-index: 200;
+    user-select: none;
+    will-change: transform, opacity;
+    animation: burst ease-out forwards;
+  }
+
+  @keyframes burst {
+    0%   { transform: translate(-50%, -50%) scale(0.3) rotate(0); opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.4) rotate(var(--rot)); opacity: 0; }
   }
 
   /* Floating hearts background */
@@ -685,7 +707,7 @@
     </div>
 
     <div class="button-area" id="buttonArea">
-      <button class="btn btn-forgive" onclick="forgive()">Yes, I forgive you 💕</button>
+      <button class="btn btn-forgive" onclick="forgive(event)">Yes, I forgive you 💕</button>
       <button class="btn btn-decline" id="declineBtn" onmouseover="runAway()" ontouchstart="runAway()" onclick="runAway()">No 😤</button>
     </div>
   </div>
@@ -830,12 +852,53 @@
     btn.textContent = teases[moveCount % teases.length];
   }
 
+  // Big heart-burst from a point
+  const burstChars = ['💕','💖','💗','💝','💞','💓','🌸','💚','🌼','🥑','🐱','🐟'];
+  function burstHearts(x, y, count) {
+    for (let i = 0; i < count; i++) {
+      const h = document.createElement('div');
+      h.className = 'burst-heart';
+      h.textContent = burstChars[Math.floor(Math.random() * burstChars.length)];
+      h.style.left = x + 'px';
+      h.style.top = y + 'px';
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.random() * 380 + 120;
+      const dx = Math.cos(angle) * distance;
+      const dy = Math.sin(angle) * distance - 80;
+      const rot = (Math.random() * 720 - 360) + 'deg';
+      h.style.setProperty('--dx', dx + 'px');
+      h.style.setProperty('--dy', dy + 'px');
+      h.style.setProperty('--rot', rot);
+      h.style.fontSize = (Math.random() * 26 + 18) + 'px';
+      h.style.animationDuration = (Math.random() * 0.8 + 1.4) + 's';
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 2400);
+    }
+  }
+
   // Forgive button
-  function forgive() {
+  function forgive(ev) {
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+    if (ev) {
+      if (ev.clientX) { x = ev.clientX; y = ev.clientY; }
+      else if (ev.touches && ev.touches[0]) { x = ev.touches[0].clientX; y = ev.touches[0].clientY; }
+      else if (ev.target) {
+        const r = ev.target.getBoundingClientRect();
+        x = r.left + r.width / 2;
+        y = r.top + r.height / 2;
+      }
+    }
+
+    // Big burst from the click point, then secondary waves
+    burstHearts(x, y, 80);
+    setTimeout(() => burstHearts(x, y, 50), 250);
+    setTimeout(() => burstHearts(window.innerWidth/2, window.innerHeight/3, 60), 500);
+
     document.getElementById('mainContent').style.display = 'none';
     document.getElementById('successScreen').style.display = 'block';
 
-    // Extra heart burst
+    // Extra heart rain in the background
     for (let i = 0; i < 30; i++) {
       setTimeout(spawnHeart, i * 80);
     }

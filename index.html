@@ -313,6 +313,46 @@
     color: var(--brown);
   }
 
+  /* "One more thing" link to forever.html */
+  .more-wrap {
+    margin-top: 35px;
+    animation: morePulse 2.5s ease-in-out infinite;
+  }
+
+  .more-link {
+    display: inline-block;
+    font-family: 'Dancing Script', cursive;
+    font-size: 26px;
+    color: white;
+    text-decoration: none;
+    padding: 18px 36px;
+    background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(255, 135, 162, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .more-link:hover {
+    transform: scale(1.06);
+    box-shadow: 0 14px 38px rgba(255, 135, 162, 0.7);
+  }
+
+  .more-hint {
+    display: block;
+    margin-top: 10px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14px;
+    color: var(--brown);
+    font-style: italic;
+    opacity: 0.8;
+  }
+
+  @keyframes morePulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.03); }
+  }
+
   /* Lock screen */
   .lock-screen, .welcome-screen {
     position: fixed;
@@ -768,6 +808,11 @@
       </strong>
     </p>
     <div class="avocado-row" style="margin-top: 25px;">🌸 🥑 💚 🌼 💕</div>
+
+    <div class="more-wrap">
+      <a href="forever.html" class="more-link">one more thing for you, mdwara 💕 →</a>
+      <span class="more-hint">a little something I made under the stars 🌙</span>
+    </div>
   </div>
 
   <div class="footer">made with 💚 just for you, Batoul</div>

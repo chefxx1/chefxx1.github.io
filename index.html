@@ -614,16 +614,22 @@
     melodyTimer = setTimeout(scheduleMelody, total * 1000 + 2500);
   }
 
-  musicBtn.addEventListener('click', () => {
-    if (!audioCtx) { startAmbient(); return; }
-    if (musicOn) {
+  musicBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!audioCtx || !musicOn) {
+      // Start (or restart) music
+      if (!audioCtx) {
+        startAmbient();
+      } else {
+        audioCtx.resume();
+        musicOn = true;
+        musicBtn.classList.remove('off');
+      }
+      musicStarted = true;
+    } else {
       audioCtx.suspend();
       musicOn = false;
       musicBtn.classList.add('off');
-    } else {
-      audioCtx.resume();
-      musicOn = true;
-      musicBtn.classList.remove('off');
     }
   });
 

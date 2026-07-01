@@ -326,6 +326,29 @@
     box-shadow: 0 4px 12px rgba(194, 59, 96, 0.4);
   }
 
+  /* Card 4 — bouquet (a blooming gift from me) */
+  .hub-card-4 {
+    background: linear-gradient(135deg, #fff1f6 0%, #ffd9e6 55%, #f7b6cf 100%);
+    border: 3px solid var(--pink-deep);
+    box-shadow: 0 15px 40px rgba(226, 86, 122, 0.28);
+    color: #7a2f4a;
+  }
+  .hub-card-4:hover {
+    box-shadow: 0 22px 55px rgba(226, 86, 122, 0.45);
+  }
+  .hub-card-4 .hub-card-title { color: #c23b60; }
+  .hub-card-4 .hub-card-desc { color: #93465f; }
+  .hub-card-4 .hub-card-cta {
+    background: linear-gradient(135deg, #e0567a, #c23b60);
+    color: white;
+    box-shadow: 0 6px 20px rgba(194, 59, 96, 0.5);
+  }
+  .hub-card-4 .card-icon { animation: bloomSpin 3.5s ease-in-out infinite; }
+  @keyframes bloomSpin {
+    0%, 100% { transform: scale(1) rotate(-6deg); }
+    50%      { transform: scale(1.14) rotate(6deg); }
+  }
+
   .card-icon {
     position: relative;
     z-index: 2;
@@ -501,6 +524,16 @@
         for the way I want to love you, every night
       </p>
       <span class="hub-card-cta">open ✨</span>
+    </a>
+
+    <a href="bouquet.html" class="hub-card hub-card-4">
+      <div class="card-icon">💐</div>
+      <h2 class="hub-card-title">A Bouquet For You</h2>
+      <p class="hub-card-desc">
+        tap it and watch it bloom 🌸<br>
+        a little garden I grew back for you, with our memories inside 💕
+      </p>
+      <span class="hub-card-cta">open 💐</span>
     </a>
 
     <a href="for_you.html" class="hub-card hub-card-3">

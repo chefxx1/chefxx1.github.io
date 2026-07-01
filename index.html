@@ -293,6 +293,39 @@
     box-shadow: 0 0 20px rgba(255, 230, 180, 0.6);
   }
 
+  /* Card 3 — rose/blush (the page Batoul made for me) */
+  .hub-card-3 {
+    background: linear-gradient(135deg, #fbe3ea 0%, #f7c9d8 55%, #f2aac4 100%);
+    border: 3px solid #e0567a;
+    box-shadow: 0 15px 40px rgba(194, 59, 96, 0.28);
+    color: #5a3040;
+  }
+  .hub-card-3:hover {
+    box-shadow: 0 22px 55px rgba(194, 59, 96, 0.45);
+  }
+  .hub-card-3 .hub-card-title { color: #c23b60; }
+  .hub-card-3 .hub-card-desc { color: #8a4159; }
+  .hub-card-3 .hub-card-cta {
+    background: linear-gradient(135deg, #e0567a, #c23b60);
+    color: white;
+    box-shadow: 0 6px 20px rgba(194, 59, 96, 0.5);
+  }
+  /* little "from Batoul" ribbon on card 3 */
+  .card-ribbon {
+    position: absolute;
+    top: 16px;
+    right: -34px;
+    transform: rotate(35deg);
+    background: linear-gradient(135deg, #e0567a, #c23b60);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 4px 40px;
+    z-index: 3;
+    box-shadow: 0 4px 12px rgba(194, 59, 96, 0.4);
+  }
+
   .card-icon {
     position: relative;
     z-index: 2;
@@ -468,6 +501,17 @@
         for the way I want to love you, every night
       </p>
       <span class="hub-card-cta">open ✨</span>
+    </a>
+
+    <a href="for_you.html" class="hub-card hub-card-3">
+      <div class="card-ribbon">from Batoul 💌</div>
+      <div class="card-icon">💝</div>
+      <h2 class="hub-card-title">For You</h2>
+      <p class="hub-card-desc">
+        the beautiful page you made for me 💝 — our memories, our photos 📸<br>
+        I keep it right here, so I can open it whenever I miss you 💕
+      </p>
+      <span class="hub-card-cta">open 💗</span>
     </a>
   </div>
 

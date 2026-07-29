@@ -2,12 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#050818">
 <title>Still yours, mdwara 💛</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --cream:   #fff6e2;
+    --cream-soft: rgba(248, 228, 200, 0.72);
+    --rose:    #ffd2df;
+    --gold:    #f4d29a;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   html, body {
@@ -17,6 +27,8 @@
     background: #050818;
     font-family: 'Cormorant Garamond', serif;
     color: #e8e4f3;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 32 32'><path d='M16 28 C16 28 4 19 4 11 C4 6 8 3 12 3 C14 3 16 5 16 7 C16 5 18 3 20 3 C24 3 28 6 28 11 C28 19 16 28 16 28 Z' fill='%23ff87a2' stroke='%23ff5577' stroke-width='1.5'/></svg>") 14 14, auto;
   }
@@ -55,7 +67,7 @@
       0 0 120px rgba(255, 230, 180, 0.2),
       inset -10px -15px 30px rgba(80, 50, 20, 0.3);
     z-index: 2;
-    animation: moonGlow 5s ease-in-out infinite;
+    animation: moonGlow 8s var(--ease-out-quint) infinite;
   }
 
   @keyframes moonGlow {
@@ -66,15 +78,16 @@
   .scene {
     position: fixed;
     inset: 0;
+    height: 100svh;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 1.6s ease, visibility 1.6s;
+    transition: opacity 1.6s var(--ease-out-expo), visibility 1.6s;
     z-index: 10;
-    padding: 30px;
+    padding: max(30px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(30px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
     text-align: center;
   }
 
@@ -94,14 +107,12 @@
   .intro-title {
     font-family: 'Pinyon Script', cursive;
     font-size: clamp(3.5rem, 14vw, 8rem);
-    background: linear-gradient(135deg, #fff4e0, #ffd6e0 50%, #f8c8a0);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--cream);
+    text-shadow: 0 0 34px rgba(255, 214, 170, 0.45), 0 2px 2px rgba(0,0,0,0.25);
     margin-bottom: 12px;
-    animation: titleAppear 3s ease both, titleFloat 4s ease-in-out infinite 3s;
-    filter: drop-shadow(0 0 30px rgba(255, 200, 220, 0.5));
+    animation: titleAppear 3s var(--ease-out-expo) both, titleFloat 5s var(--ease-out-quint) infinite 3s;
     line-height: 1.1;
+    text-wrap: balance;
   }
 
   .intro-sub {
@@ -134,8 +145,9 @@
     letter-spacing: 4px;
     text-transform: lowercase;
     backdrop-filter: blur(8px);
-    transition: all 0.4s ease;
-    animation: btnPulse 2.5s ease-in-out infinite, fadeIn 2s ease 1.5s both;
+    min-height: 44px;
+    transition: background .4s var(--ease-out-quint), border-color .4s var(--ease-out-quint), transform .4s var(--ease-out-quint);
+    animation: btnPulse 2.5s var(--ease-out-quint) infinite, fadeIn 2s ease 1.5s both;
   }
 
   @keyframes btnPulse {
@@ -195,15 +207,12 @@
     margin-top: 30px;
     font-family: 'Pinyon Script', cursive;
     font-size: clamp(2.5rem, 8vw, 4rem);
-    background: linear-gradient(135deg, #fff4e0, #ffd6e0);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 0 20px rgba(255, 180, 200, 0.4));
+    color: var(--cream);
+    text-shadow: 0 0 24px rgba(255, 210, 170, 0.42), 0 2px 2px rgba(0,0,0,0.2);
     opacity: 0;
   }
 
-  .heart-name.show { animation: nameAppear 2s ease forwards; }
+  .heart-name.show { animation: nameAppear 2s var(--ease-out-expo) forwards; }
 
   .heart-subtitle {
     margin-top: 12px;
@@ -214,7 +223,7 @@
     opacity: 0;
   }
 
-  .heart-subtitle.show { animation: nameAppear 2s ease 0.4s forwards; }
+  .heart-subtitle.show { animation: nameAppear 2s var(--ease-out-expo) 0.4s forwards; }
 
   @keyframes nameAppear {
     0%   { opacity: 0; transform: translateY(15px) scale(0.92); }
@@ -266,33 +275,33 @@
     margin-top: 25px;
     font-family: 'Pinyon Script', cursive;
     font-size: clamp(2rem, 5vw, 2.6rem);
-    background: linear-gradient(135deg, #ffd6e0, #f8c8a0);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--cream);
+    text-shadow: 0 0 22px rgba(255, 210, 170, 0.38), 0 2px 2px rgba(0,0,0,0.2);
     text-align: right;
     opacity: 0;
   }
 
-  .letter-signature.show { animation: nameAppear 2s ease forwards; }
+  .letter-signature.show { animation: nameAppear 2s var(--ease-out-expo) forwards; }
 
   .next-btn {
     position: fixed;
-    bottom: 35px;
-    right: 35px;
+    bottom: max(35px, env(safe-area-inset-bottom));
+    right: max(35px, env(safe-area-inset-right));
     background: rgba(248, 228, 200, 0.12);
     border: 1px solid rgba(248, 228, 200, 0.4);
     color: #f8e4c8;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: 1rem;
-    padding: 11px 28px;
+    padding: 12px 28px;
+    min-height: 44px;
     border-radius: 50px;
     letter-spacing: 3px;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 1s ease, visibility 1s, background 0.3s, transform 0.3s;
+    transition: opacity 1s var(--ease-out-expo), visibility 1s, background 0.3s, transform 0.3s var(--ease-out-quint);
     z-index: 100;
   }
 
@@ -301,50 +310,51 @@
 
   .back-link {
     position: fixed;
-    top: 25px;
-    left: 25px;
+    top: max(25px, env(safe-area-inset-top));
+    left: max(16px, env(safe-area-inset-left));
     color: rgba(248, 228, 200, 0.7);
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: 0.95rem;
     text-decoration: none;
     letter-spacing: 1px;
-    padding: 8px 14px;
-    border-radius: 20px;
+    padding: 10px 16px;
+    border-radius: 999px;
     background: rgba(248, 228, 200, 0.06);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 100;
-    transition: all 0.3s;
+    transition: color .3s, background .3s, transform .3s var(--ease-out-quint);
   }
-  .back-link:hover { color: #fff; background: rgba(248, 228, 200, 0.15); }
+  .back-link:hover { color: #fff; background: rgba(248, 228, 200, 0.15); transform: translateX(-2px); }
 
   .music-toggle {
     position: fixed;
-    bottom: 35px;
-    left: 35px;
-    width: 46px;
-    height: 46px;
+    bottom: max(35px, env(safe-area-inset-bottom));
+    left: max(16px, env(safe-area-inset-left));
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: rgba(248, 228, 200, 0.12);
     border: 1px solid rgba(248, 228, 200, 0.4);
     color: #f8e4c8;
     font-size: 1.3rem;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.3s, transform 0.3s;
+    transition: background 0.3s, transform 0.3s var(--ease-out-quint), opacity 0.3s;
   }
 
-  .music-toggle:hover { background: rgba(248, 228, 200, 0.25); transform: scale(1.05); }
+  .music-toggle:hover { background: rgba(248, 228, 200, 0.25); transform: scale(1.08); }
   .music-toggle.off { opacity: 0.4; }
 
   @media (max-width: 600px) {
-    .next-btn { bottom: 20px; right: 20px; padding: 10px 22px; font-size: 0.9rem; letter-spacing: 2px; }
-    .music-toggle { bottom: 20px; left: 20px; width: 40px; height: 40px; font-size: 1.1rem; }
+    .next-btn { padding: 12px 22px; font-size: 0.9rem; letter-spacing: 2px; }
     .moon { width: 60px; height: 60px; top: 5%; right: 5%; }
-    .back-link { top: 15px; left: 15px; font-size: 0.85rem; }
+    .back-link { font-size: 0.85rem; }
   }
 
   .shooting-star {
@@ -356,6 +366,22 @@
     box-shadow: 0 0 8px white, 0 0 16px rgba(255, 230, 180, 0.6);
     z-index: 3;
     pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scene { transition: opacity 0.2s linear, visibility 0.2s; }
+    .moon { animation: none !important; }
+    .intro-title,
+    .intro-pre,
+    .intro-sub,
+    .tap-btn { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .heart-path.draw { animation: none !important; stroke-dashoffset: 0; fill: url(#heartGradient); transform: none !important; }
+    .heart-name.show,
+    .heart-subtitle.show,
+    .letter-signature.show { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .letter-content::after { animation: none !important; }
+    .next-btn { transition: opacity 0.2s linear, visibility 0.2s; }
+    .back-link:hover, .music-toggle:hover, .next-btn:hover, .tap-btn:hover, .tap-btn:focus { transform: none !important; }
   }
 </style>
 </head>
@@ -498,7 +524,7 @@ function shootingStar() {
   star.animate(
     [{ transform: 'translate(0,0)', opacity: 1 },
      { transform: `translate(${dx}px, ${dy}px)`, opacity: 0 }],
-    { duration: 1300, easing: 'ease-out' }
+    { duration: 1300, easing: 'cubic-bezier(0.16,1,0.3,1)' }
   );
   setTimeout(() => star.remove(), 1400);
 }

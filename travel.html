@@ -575,16 +575,20 @@
   song.addEventListener('play',  () => setPlaying(true));
   song.addEventListener('pause', () => { if (userPaused) setPlaying(false); });
 
-  // Phones block autoplay: start on her very first touch anywhere.
+  // Try to start on load (works on desktop / already-visited sites).
+  window.addEventListener('load', () => { setTimeout(tryPlay, 250); });
+  document.addEventListener('DOMContentLoaded', tryPlay);
+  // Phones block autoplay until a gesture, so start on her VERY first
+  // interaction of any kind — a tap, a scroll, anything. As automatic as
+  // a phone browser allows.
+  const startEvents = ['pointerdown', 'touchstart', 'touchmove', 'scroll', 'wheel', 'click', 'keydown'];
   const kick = () => {
     tryPlay();
-    window.removeEventListener('pointerdown', kick);
-    window.removeEventListener('touchstart', kick);
+    startEvents.forEach(ev => window.removeEventListener(ev, kick));
   };
-  window.addEventListener('pointerdown', kick, { passive: true });
-  window.addEventListener('touchstart', kick, { passive: true });
-  // Some mobile browsers also allow it after the page becomes visible/interacted
-  window.addEventListener('load', () => { setTimeout(tryPlay, 400); });
+  startEvents.forEach(ev => window.addEventListener(ev, kick, { passive: true }));
+  // If she leaves and comes back, try again.
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
 })();
 </script>
 </body>

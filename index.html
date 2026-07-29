@@ -536,6 +536,18 @@
       <span class="hub-card-cta">open 💐</span>
     </a>
 
+    <a href="travel.html" class="hub-card hub-card-2">
+      <div class="stars-bg" id="cardStars2"></div>
+      <div class="moon-mini"></div>
+      <div class="card-icon">✈️</div>
+      <h2 class="hub-card-title">Travel Safe, mdwara</h2>
+      <p class="hub-card-desc">
+        you're going away for a little while ✈️<br>
+        open this before you fly — I'll be under the same moon 🌙
+      </p>
+      <span class="hub-card-cta">open 💛</span>
+    </a>
+
     <a href="for_you.html" class="hub-card hub-card-3">
       <div class="card-ribbon">from Batoul 💌</div>
       <div class="card-icon">💝</div>
@@ -586,16 +598,19 @@
   for (let i = 0; i < 8; i++) setTimeout(spawnHeart, i * 400);
   setInterval(spawnHeart, 600);
 
-  // Twinkling stars on card 2
-  const cardStars = document.getElementById('cardStars');
-  for (let i = 0; i < 18; i++) {
-    const s = document.createElement('div');
-    s.className = 'star-dot';
-    s.style.left = Math.random() * 100 + '%';
-    s.style.top  = Math.random() * 100 + '%';
-    s.style.animationDelay = (Math.random() * 2) + 's';
-    cardStars.appendChild(s);
-  }
+  // Twinkling stars on the starry cards
+  ['cardStars', 'cardStars2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    for (let i = 0; i < 18; i++) {
+      const s = document.createElement('div');
+      s.className = 'star-dot';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top  = Math.random() * 100 + '%';
+      s.style.animationDelay = (Math.random() * 2) + 's';
+      el.appendChild(s);
+    }
+  });
 
   // ===== AUDIO: chime + ambient music (Web Audio API, no files) =====
   let audioCtx = null;

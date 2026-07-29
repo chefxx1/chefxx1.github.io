@@ -177,7 +177,7 @@
       0 0 90px -20px rgba(255,210,170,0.35);
   }
   .photo-frame img {
-    display: block; width: 100%; border-radius: 12px;
+    display: block; width: 100%; height: auto; border-radius: 12px;
     filter: saturate(1.05) contrast(1.03);
   }
   html.js .photo-frame img { filter: saturate(1.05) contrast(1.03) blur(14px); transform: scale(1.04); transition: filter 1.6s var(--ease-out-expo), transform 1.6s var(--ease-out-expo); }
@@ -369,7 +369,10 @@
   <!-- Photo -->
   <section class="photo">
     <div class="photo-frame reveal">
-      <img src="photos/cloud-heart-b.png" alt="A heart drawn in the clouds around a full moon, with your initial B beside it">
+      <picture>
+        <source srcset="photos/cloud-heart-b.webp" type="image/webp">
+        <img src="photos/cloud-heart-b.jpg" width="682" height="723" loading="eager" fetchpriority="high" decoding="async" alt="A heart drawn in the clouds around a full moon, with your initial B beside it">
+      </picture>
       <div class="photo-glow"></div>
     </div>
     <p class="photo-cap reveal" style="--d:.25s">even the sky spells your name</p>

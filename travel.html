@@ -408,7 +408,8 @@
   </section>
 </main>
 
-<button class="music-toggle off" id="musicToggle" title="music" aria-label="toggle music">♪</button>
+<audio id="song" src="audio/love-story.mp3" loop preload="auto" playsinline></audio>
+<button class="music-toggle off" id="musicToggle" title="music" aria-label="play or pause the song">♪</button>
 
 <script>
 (function () {
@@ -524,56 +525,66 @@
     window.addEventListener('load', () => setTimeout(() => reveals.forEach(r => r.classList.add('in')), 2500));
   }
 
-  /* ===== Ambient music (Web Audio, no files) ===== */
-  let actx = null, master = null, on = false, melodyTimer = null;
+  /* ===== Music: real song file, phone-friendly ===== */
+  const song = document.getElementById('song');
   const btn = document.getElementById('musicToggle');
+  song.volume = 0.7;
+  let userPaused = false;      // did she deliberately pause?
+  let started = false;
 
-  function startMusic() {
-    if (actx) return;
-    try {
-      actx = new (window.AudioContext || window.webkitAudioContext)();
-      master = actx.createGain();
-      master.gain.value = 0;
-      master.gain.linearRampToValueAtTime(0.16, actx.currentTime + 4);
-      master.connect(actx.destination);
-      [261.63, 329.63, 392.00, 493.88].forEach((f, i) => {
-        const o = actx.createOscillator(); o.type = 'sine'; o.frequency.value = f;
-        const g = actx.createGain(); g.gain.value = 0.18;
-        const lfo = actx.createOscillator(); lfo.frequency.value = 0.07 + i * 0.04;
-        const lg = actx.createGain(); lg.gain.value = 0.1;
-        lfo.connect(lg).connect(g.gain);
-        o.connect(g).connect(master); o.start(); lfo.start();
-      });
-      scheduleMelody();
-      on = true; btn.classList.remove('off'); btn.textContent = '♪';
-    } catch (e) {}
+  function setPlaying(is) {
+    btn.classList.toggle('off', !is);
+    btn.textContent = is ? '♪' : '🔇';
   }
-  function scheduleMelody() {
-    if (!actx) return;
-    const notes = [[1046.50,0.5],[1318.51,0.5],[1567.98,1.0],[1318.51,0.5],[1174.66,1.0],[1046.50,1.5],[880.00,1.5],[987.77,2.5]];
-    let t = actx.currentTime + 0.4;
-    notes.forEach(([f, dur]) => {
-      const o = actx.createOscillator(); o.type = 'triangle'; o.frequency.value = f;
-      const g = actx.createGain();
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.05, t + 0.08);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + dur * 1.2);
-      o.connect(g).connect(master); o.start(t); o.stop(t + dur * 1.5);
-      t += dur * 0.9;
-    });
-    const total = notes.reduce((s, n) => s + n[1] * 0.9, 0);
-    melodyTimer = setTimeout(scheduleMelody, total * 1000 + 2400);
+  setPlaying(false);
+
+  // Fade volume in smoothly when it starts (nicer than a hard cut)
+  function fadeIn() {
+    song.volume = 0;
+    let v = 0;
+    const id = setInterval(() => {
+      v += 0.05;
+      if (v >= 0.7) { v = 0.7; clearInterval(id); }
+      try { song.volume = v; } catch (e) {}
+    }, 90);
   }
-  btn.addEventListener('click', () => {
-    if (!actx) { startMusic(); return; }
-    on = !on;
-    if (on) { actx.resume(); btn.classList.remove('off'); }
-    else { actx.suspend(); btn.classList.add('off'); }
+
+  function tryPlay() {
+    if (userPaused) return;
+    const p = song.play();
+    if (p && p.catch) {
+      p.then(() => { if (!started) { started = true; fadeIn(); } setPlaying(true); })
+       .catch(() => { setPlaying(false); }); // blocked or file missing — wait for a real tap
+    }
+  }
+
+  // Toggle button: explicit control
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (song.paused) {
+      userPaused = false;
+      const p = song.play();
+      if (p && p.catch) p.then(() => { if (!started){started=true;fadeIn();} setPlaying(true); }).catch(() => setPlaying(false));
+    } else {
+      userPaused = true;
+      song.pause();
+      setPlaying(false);
+    }
   });
-  // gentle auto-start on first interaction (browsers block autoplay)
-  const kick = () => { startMusic(); window.removeEventListener('pointerdown', kick); window.removeEventListener('touchstart', kick); };
-  window.addEventListener('pointerdown', kick, { once: true });
-  window.addEventListener('touchstart', kick, { once: true });
+
+  song.addEventListener('play',  () => setPlaying(true));
+  song.addEventListener('pause', () => { if (userPaused) setPlaying(false); });
+
+  // Phones block autoplay: start on her very first touch anywhere.
+  const kick = () => {
+    tryPlay();
+    window.removeEventListener('pointerdown', kick);
+    window.removeEventListener('touchstart', kick);
+  };
+  window.addEventListener('pointerdown', kick, { passive: true });
+  window.addEventListener('touchstart', kick, { passive: true });
+  // Some mobile browsers also allow it after the page becomes visible/interacted
+  window.addEventListener('load', () => { setTimeout(tryPlay, 400); });
 })();
 </script>
 </body>
